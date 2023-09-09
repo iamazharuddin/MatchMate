@@ -17,8 +17,11 @@ enum ApiError : LocalizedError {
      case inValidData
 }
 
+protocol ApiManagerDelegate {
+    func fetchUserData() async throws -> [User]
+}
 
-class ApiManager{
+class ApiManager : ApiManagerDelegate {
     static let shared = ApiManager()
     func fetchUserData() async throws -> [User] {
         guard let url = URL(string: AppURLConstant.baseURL + "?results=10") else {

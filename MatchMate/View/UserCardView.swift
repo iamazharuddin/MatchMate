@@ -14,12 +14,12 @@ struct UserCardView: View {
                 .frame(width: 100, height: 100)
                 .clipShape(Circle())
                 .overlay(Circle().stroke(Color.white, lineWidth: 4))
-
+            
             Text(cardViewModel.fullName)
                 .font(.system(size: 20, weight: .bold))
                 .foregroundColor(AppColor.themeColor)
                 .padding(.top, 10)
-
+            
             Text(cardViewModel.completeAddress)
                 .foregroundColor(AppColor.textColor)
                 .font(.system(size: 16, weight: .medium))
@@ -53,11 +53,11 @@ struct UserCardView: View {
                             .padding(10)
                             .background(Circle().stroke(AppColor.themeColor, lineWidth: 4))
                             .clipShape(Circle())
-          
+                        
                     }.buttonStyle(PlainButtonStyle())
                     
                     Spacer().frame(width: 60)
-
+                    
                     Button(action: {
                         cardViewModel.handleUserAction(.rejected)
                     }) {
@@ -66,7 +66,7 @@ struct UserCardView: View {
                             .padding(10)
                             .background(Circle().stroke(AppColor.themeColor, lineWidth: 4))
                             .clipShape(Circle())
-                            
+                        
                     }.buttonStyle(PlainButtonStyle())
                 }
                 .foregroundColor(AppColor.textColor)
@@ -77,12 +77,12 @@ struct UserCardView: View {
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 16)
         .background(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 8)
                 .fill(Color.white)
                 .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
         )
-        .cornerRadius(10)
+        .padding(.horizontal, 8)
     }
-
+    
 }
 

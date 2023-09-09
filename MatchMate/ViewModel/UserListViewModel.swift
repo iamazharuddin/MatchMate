@@ -16,12 +16,18 @@ enum UserStatus  : String {
 class UserViewModel : ObservableObject {
     @Published var users : [User] = []
     @Published var isLoading : Bool = false
-    @Published var isAccepted : Bool = false
-    @Published var isRejected : Bool = false
     @Published var alertDescription: AlertDescription?
+    
+    private let apiManager : ApiManagerDelegate
+    
+    init(apiManager:ApiManagerDelegate = ApiManager()) {
+        self.apiManager = apiManager
+    }
+    
+    
     func  fetchUserData(){
-        isLoading = true
-        DatabaseManager.shared.fetchUserDataFromDatabase{[weak self] result in
+          isLoading = true
+          DatabaseManager.shared.fetchUserDataFromDatabase{[weak self] result in
             switch result{
             case .success(let users):
                 self?.users = users
@@ -43,7 +49,7 @@ class UserViewModel : ObservableObject {
         isLoading = true
         Task {
             do {
-                let users = try await ApiManager.shared.fetchUserData()
+                let users = try await apiManager.fetchUserData()
                 DispatchQueue.main.async { [weak self] in
                     self?.users = users
                     self?.isLoading = false

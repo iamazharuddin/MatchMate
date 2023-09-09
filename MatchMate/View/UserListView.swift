@@ -7,17 +7,31 @@
 
 import SwiftUI
 struct UserListView: View {
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel = UserViewModel()
     var body: some View {
         NavigationView {
             ZStack{
-                List {
-                    ForEach(viewModel.users, id:\.uuid) { user in
-                        let cardViewModel = UserCardViewModel(user: user) { action in
-                            viewModel.handleUserAction(userStatus: action, user: user)
+                Color(hex: colorScheme == .dark ? "#ADB0BC" :   "#F5F5F5")
+                    .edgesIgnoringSafeArea(.all)
+                
+                ScrollView{
+                    LazyVStack{
+                        ForEach(viewModel.users, id:\.uuid) { user in
+                            let cardViewModel = UserCardViewModel(user: user) { action in
+                                viewModel.handleUserAction(userStatus: action, user: user)
+                            }
+                            UserCardView(cardViewModel: cardViewModel)
                         }
-                        UserCardView(cardViewModel: cardViewModel)
-                    }.listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
+                    }
+
+                }
+                
+                if  viewModel.isLoading {
+                    ProgressView {
+                        Text("Loading")
+                    }
+                    .foregroundColor(AppColor.themeColor)
                 }
             }
             .listStyle(PlainListStyle())
@@ -28,13 +42,6 @@ struct UserListView: View {
                 Alert(title: Text("Alert"), message: Text(alert.message), dismissButton: .cancel(Text("OK")))
             }
             .navigationTitle(Text("MatchMate"))
-            if  viewModel.isLoading {
-                ProgressView {
-                    Text("Loading")
-                }
-                .foregroundColor(AppColor.themeColor)
-            }
-            
         }
     }
 }

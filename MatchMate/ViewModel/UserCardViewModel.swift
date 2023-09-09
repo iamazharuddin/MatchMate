@@ -19,11 +19,38 @@ struct UserCardViewModel {
     var fullName : String  {
         return user.name.first  + " " + (user.name.last ?? "")
     }
+    
     var completeAddress: String {
         let location = user.location
-        let streetAddress = "\(location.street?.number ?? 0) \(location.street?.name ?? "")"
-        return "\(streetAddress), \(location.city ?? ""), \(location.state ?? ""), \(location.country ?? ""), \(location.postalCode ?? "")"
+        var addressComponents: [String] = []
+
+        if let streetNumber = location.street?.number {
+            addressComponents.append("\(streetNumber)")
+        }
+
+        if let streetName = location.street?.name {
+            addressComponents.append(streetName)
+        }
+
+        if let city = location.city {
+            addressComponents.append(city)
+        }
+
+        if let state = location.state {
+            addressComponents.append(state)
+        }
+
+        if let country = location.country {
+            addressComponents.append(country)
+        }
+
+        if let postalCode = location.postalCode {
+            addressComponents.append(postalCode)
+        }
+
+        return addressComponents.joined(separator: ", ")
     }
+
     
     var profileImageUrl : String {
         return user.picture.large ?? user.picture.medium ?? ""
