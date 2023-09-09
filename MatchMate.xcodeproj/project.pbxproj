@@ -24,6 +24,8 @@
 		1BA48E1D2AAB689C00D5AEFD /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E1C2AAB689C00D5AEFD /* CardViewModel.swift */; };
 		1BA48E1F2AAB92EE00D5AEFD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E1E2AAB92EE00D5AEFD /* Constants.swift */; };
 		1BA48E252AAB937200D5AEFD /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E242AAB937200D5AEFD /* Color.swift */; };
+		1BA48E2C2AAC27FF00D5AEFD /* CachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E2B2AAC27FF00D5AEFD /* CachedImage.swift */; };
+		1BA48E2F2AAC473E00D5AEFD /* DatabaseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E2E2AAC473E00D5AEFD /* DatabaseManger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		1BA48E1C2AAB689C00D5AEFD /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
 		1BA48E1E2AAB92EE00D5AEFD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1BA48E242AAB937200D5AEFD /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		1BA48E2B2AAC27FF00D5AEFD /* CachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImage.swift; sourceTree = "<group>"; };
+		1BA48E2E2AAC473E00D5AEFD /* DatabaseManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,8 +118,9 @@
 		1BA48DDE2AAB5B7900D5AEFD /* MatchMate */ = {
 			isa = PBXGroup;
 			children = (
+				1BA48E2D2AAC472100D5AEFD /* Manager */,
+				1BA48E2A2AAC27ED00D5AEFD /* Utiltiy */,
 				1BA48E232AAB935D00D5AEFD /* Extension */,
-				1BA48E132AAB5CFB00D5AEFD /* ApiCall */,
 				1BA48E102AAB5BCD00D5AEFD /* ViewModel */,
 				1BA48E0F2AAB5BC500D5AEFD /* View */,
 				1BA48E0E2AAB5BBF00D5AEFD /* Model */,
@@ -181,20 +186,29 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		1BA48E132AAB5CFB00D5AEFD /* ApiCall */ = {
-			isa = PBXGroup;
-			children = (
-				1BA48E142AAB5D1100D5AEFD /* ApiManager.swift */,
-			);
-			path = ApiCall;
-			sourceTree = "<group>";
-		};
 		1BA48E232AAB935D00D5AEFD /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				1BA48E242AAB937200D5AEFD /* Color.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		1BA48E2A2AAC27ED00D5AEFD /* Utiltiy */ = {
+			isa = PBXGroup;
+			children = (
+				1BA48E2B2AAC27FF00D5AEFD /* CachedImage.swift */,
+			);
+			path = Utiltiy;
+			sourceTree = "<group>";
+		};
+		1BA48E2D2AAC472100D5AEFD /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				1BA48E142AAB5D1100D5AEFD /* ApiManager.swift */,
+				1BA48E2E2AAC473E00D5AEFD /* DatabaseManger.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -339,6 +353,8 @@
 				1BA48E152AAB5D1100D5AEFD /* ApiManager.swift in Sources */,
 				1BA48DE02AAB5B7900D5AEFD /* MatchMateApp.swift in Sources */,
 				1BA48E172AAB5DD900D5AEFD /* UserResponseModel.swift in Sources */,
+				1BA48E2F2AAC473E00D5AEFD /* DatabaseManger.swift in Sources */,
+				1BA48E2C2AAC27FF00D5AEFD /* CachedImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

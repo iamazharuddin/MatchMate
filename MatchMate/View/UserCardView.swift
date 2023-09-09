@@ -10,8 +10,8 @@ struct CardView: View {
     let cardViewModel: CardViewModel
     var body: some View {
         VStack(spacing: 0){
-            AsyncImage(url: URL(string: cardViewModel.profileImageUrl))
-                .scaledToFit()
+            CachedImage(urlString: cardViewModel.profileImageUrl)
+                .frame(width: 100, height: 100)
                 .clipShape(Circle())
                 .overlay(Circle().stroke(Color.white, lineWidth: 4))
 

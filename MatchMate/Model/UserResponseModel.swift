@@ -13,12 +13,13 @@ struct UserResponse : Decodable {
 struct User : Decodable {
     var uuid = UUID().uuidString
     let name : Name
+    let email : String
     let gender : String?
     let picture : Picture
     let location : Location
     var userStatus : UserStatus = .none
     enum CodingKeys: String, CodingKey {
-           case name,gender, picture, location
+           case name,gender, picture, location, email
     }
 }
 
@@ -34,14 +35,14 @@ struct Picture : Decodable {
 }
 
 struct Location : Decodable {
-    let street : Street
-    let city : String
-    let state : String
-    let country: String
+    let street : Street?
+    let city : String?
+    let state : String?
+    let country: String?
     let postalCode : String?
 }
 
 struct Street : Decodable {
-    let number : Int
-    let name : String
+    let number : Int?
+    let name : String?
 }

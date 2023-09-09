@@ -21,8 +21,8 @@ struct CardViewModel {
     }
     var completeAddress: String {
         let location = user.location
-        let streetAddress = "\(location.street.number) \(location.street.name)"
-        return "\(streetAddress), \(location.city), \(location.state), \(location.country), \(location.postalCode ?? "")"
+        let streetAddress = "\(location.street?.number ?? 0) \(location.street?.name ?? "")"
+        return "\(streetAddress), \(location.city ?? ""), \(location.state ?? ""), \(location.country ?? ""), \(location.postalCode ?? "")"
     }
     
     var profileImageUrl : String {
