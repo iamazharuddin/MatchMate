@@ -6,12 +6,34 @@
 //
 
 import SwiftUI
-
 struct UserListView: View {
+    @StateObject var viewModel = UserViewModel()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            ZStack{
+                List {
+                    ForEach(viewModel.users, id:\.uuid) { user in
+                        let cardViewModel = CardViewModel(user: user) { action in
+                            viewModel.handleUserAction(userStatus: action, user: user)
+                        }
+                        CardView(cardViewModel: cardViewModel)
+                    }.listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
+                }
+            }
+            .listStyle(PlainListStyle())
+            .onAppear(){
+                viewModel.fetchUserData()
+            }.navigationTitle(Text("MatchMate"))
+            if  viewModel.isLoading {
+                ProgressView {
+                    Text("Loading")
+                }
+                .foregroundColor(AppColor.themeColor)
+            }
+        }
     }
 }
+
 
 struct UserListView_Previews: PreviewProvider {
     static var previews: some View {
