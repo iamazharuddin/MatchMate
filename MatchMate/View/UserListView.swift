@@ -13,23 +13,28 @@ struct UserListView: View {
             ZStack{
                 List {
                     ForEach(viewModel.users, id:\.uuid) { user in
-                        let cardViewModel = CardViewModel(user: user) { action in
+                        let cardViewModel = UserCardViewModel(user: user) { action in
                             viewModel.handleUserAction(userStatus: action, user: user)
                         }
-                        CardView(cardViewModel: cardViewModel)
+                        UserCardView(cardViewModel: cardViewModel)
                     }.listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
                 }
             }
             .listStyle(PlainListStyle())
             .onAppear(){
                 viewModel.fetchUserData()
-            }.navigationTitle(Text("MatchMate"))
+            }
+            .alert(item: $viewModel.alertDescription) { alert in
+                Alert(title: Text("Alert"), message: Text(alert.message), dismissButton: .cancel(Text("OK")))
+            }
+            .navigationTitle(Text("MatchMate"))
             if  viewModel.isLoading {
                 ProgressView {
                     Text("Loading")
                 }
                 .foregroundColor(AppColor.themeColor)
             }
+            
         }
     }
 }

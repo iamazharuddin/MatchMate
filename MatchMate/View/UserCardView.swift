@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-struct CardView: View {
-    let cardViewModel: CardViewModel
+struct UserCardView: View {
+    let cardViewModel: UserCardViewModel
     var body: some View {
         VStack(spacing: 0){
             CachedImage(urlString: cardViewModel.profileImageUrl)

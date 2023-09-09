@@ -6,34 +6,37 @@
 //
 
 import Foundation
-enum ApiError : Error {
-     case invalidUrl(String)
+
+struct AppURLConstant{
+    static let baseURL = "https://randomuser.me/api/"
+}
+
+enum ApiError : LocalizedError {
      case networkError(String)
      case noData(String)
-     case inValidData(String)
+     case inValidData
 }
 
 
 class ApiManager{
     static let shared = ApiManager()
     func fetchUserData() async throws -> [User] {
-        guard let url = URL(string: "https://randomuser.me/api/?results=10") else {
-            throw URLError(_nsError: NSError())
+        guard let url = URL(string: AppURLConstant.baseURL + "?results=10") else {
+            throw URLError(.badURL)
         }
         let urlRequest = URLRequest(url: url)
         do {
             let (data, _) =  try await URLSession.shared.data(for: urlRequest)
-            print(String(data: data, encoding: .utf8)!)
             do {
                 let usersResponse = try  JSONDecoder().decode(UserResponse.self, from: data)
                 return usersResponse.results!
             } catch let error {
                 print(error.localizedDescription)
-                throw error
+                throw ApiError.inValidData
             }
         } catch let error {
             print(error.localizedDescription)
-            throw error
+            throw ApiError.noData(error.localizedDescription)
         }
     }
 }

@@ -1,12 +1,12 @@
 //
-//  CardViewModel.swift
+//  UserCardViewModel.swift
 //  MatchMate
 //
 //  Created by Azharuddin 1 on 08/09/23.
 //
 
 import Foundation
-struct CardViewModel {
+struct UserCardViewModel {
     private let user : User
     let handleUserAction : (UserStatus) -> Void
     let userStatus : UserStatus

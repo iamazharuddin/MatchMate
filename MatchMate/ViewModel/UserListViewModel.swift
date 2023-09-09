@@ -7,7 +7,6 @@
 
 import Foundation
 import CoreData
-
 enum UserStatus  : String {
     case accepted = "accepted"
     case rejected = "rejected"
@@ -19,30 +18,45 @@ class UserViewModel : ObservableObject {
     @Published var isLoading : Bool = false
     @Published var isAccepted : Bool = false
     @Published var isRejected : Bool = false
+    @Published var alertDescription: AlertDescription?
     func  fetchUserData(){
-        let users = DatabaseManager.shared.fetchUserDataFromDatabase()
-        if users.count > 0 {
-            print("from local database")
-            self.users = users
-        }else {
-            isLoading = true
-            print("from api call")
-            Task {
-                do {
-                    let users = try await ApiManager.shared.fetchUserData()
-                    DispatchQueue.main.async { [weak self] in
-                        self?.users = users
-                        self?.isLoading = false
-                        DatabaseManager.shared.deleteAllUsersFromDatabase()
-                        for user in users{
-                            DatabaseManager.shared.saveUserToDatabase(user: user)
-                        }
+        isLoading = true
+        DatabaseManager.shared.fetchUserDataFromDatabase{[weak self] result in
+            switch result{
+            case .success(let users):
+                self?.users = users
+                self?.isLoading = false
+                if users.isEmpty{
+                    self?.fetchUserFromApi()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                self?.alertDescription = AlertDescription(message: error.localizedDescription)
+                self?.fetchUserFromApi()
+            }
+        }
+    }
+    
+    
+    private func fetchUserFromApi(){
+        print("from api")
+        isLoading = true
+        Task {
+            do {
+                let users = try await ApiManager.shared.fetchUserData()
+                DispatchQueue.main.async { [weak self] in
+                    self?.users = users
+                    self?.isLoading = false
+                    DatabaseManager.shared.deleteAllUsersFromDatabase()
+                    for user in users{
+                        DatabaseManager.shared.saveUserToDatabase(user: user)
                     }
-                } catch {
-                    print("Error: \(error)")
-                    DispatchQueue.main.async { [weak self] in
-                        self?.isLoading = false
-                    }
+                }
+            } catch {
+                print("Error: \(error)")
+                DispatchQueue.main.async { [weak self] in
+                    self?.isLoading = false
+                    self?.alertDescription = AlertDescription(message: error.localizedDescription)
                 }
             }
         }
@@ -64,4 +78,5 @@ class UserViewModel : ObservableObject {
             DatabaseManager.shared.updateUserInDatabase(user: modifiedUser)
         }
     }
+
 }

@@ -56,37 +56,46 @@ class DatabaseManager {
     }
     
     // MARK: - Fetch User Data from Database
-    
-    func fetchUserDataFromDatabase() -> [User] {
-        let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
+    func fetchUserDataFromDatabase(completion: @escaping (Result<[User], Error>) -> Void ) {
+        let backgroundContext = PersistenceController.shared.container.newBackgroundContext()
         
-        do {
-            let userEntities = try managedObjectContext.fetch(fetchRequest)
-            // Convert fetched UserEntity objects to User models
-            let users = userEntities.map { userEntity in
-                let name = Name(first: userEntity.first ?? "", last: userEntity.last ?? "")
-                let location = Location(street: Street(number: Int(userEntity.streetNumber), name: userEntity.streetName),
-                                        city: userEntity.city ?? "",
-                                        state: "",
-                                        country: userEntity.country ?? "",
-                                        postalCode: "")
-                let picture = Picture(medium: userEntity.profileImageUrl, large: userEntity.profileImageUrl)
+        backgroundContext.perform {
+            let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
+            
+            do {
+                let userEntities = try backgroundContext.fetch(fetchRequest)
+                // Convert fetched UserEntity objects to User models
+                let users = userEntities.map { userEntity in
+                    let name = Name(first: userEntity.first ?? "", last: userEntity.last ?? "")
+                    let location = Location(street: Street(number: Int(userEntity.streetNumber), name: userEntity.streetName),
+                                            city: userEntity.city ?? "",
+                                            state: "",
+                                            country: userEntity.country ?? "",
+                                            postalCode: "")
+                    let picture = Picture(medium: userEntity.profileImageUrl, large: userEntity.profileImageUrl)
+                    
+                    return User(
+                        name: name,
+                        email: userEntity.email ?? "",
+                        gender: userEntity.gender ?? "",
+                        picture: picture,
+                        location: location,
+                        userStatus: UserStatus(rawValue: userEntity.userStatus ?? "none") ?? UserStatus.none
+                    )
+                }
                 
-                return User(
-                    name: name,
-                    email: userEntity.email ?? "",
-                    gender: userEntity.gender ?? "",
-                    picture: picture,
-                    location: location,
-                    userStatus: UserStatus(rawValue: userEntity.userStatus ?? "none") ?? UserStatus.none
-                )
+                DispatchQueue.main.async {
+                    completion(.success(users))
+                }
+            } catch {
+                print("Error fetching user data from Core Data: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
-            return users
-        } catch {
-            print("Error fetching user data from Core Data: \(error)")
-            return []
         }
     }
+
     
     // MARK: - Delete All Users from Database
     
@@ -99,5 +108,9 @@ class DatabaseManager {
         } catch {
             print("Error deleting all users from Core Data: \(error)")
         }
+    }
+    
+    func syncDataToServer(completion: @escaping (Result<Void, Error>) -> Void) {
+        // Implement data synchronization logic here
     }
 }
