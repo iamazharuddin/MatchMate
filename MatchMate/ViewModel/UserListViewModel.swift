@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreData
 enum UserStatus  : String {
     case accepted = "accepted"
     case rejected = "rejected"

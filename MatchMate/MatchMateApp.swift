@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UIKit
 @main
 struct MatchMateApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
