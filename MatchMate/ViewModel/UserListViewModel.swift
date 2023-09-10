@@ -23,24 +23,29 @@ class UserViewModel : ObservableObject {
     init(apiManager:ApiManagerDelegate = ApiManager()) {
         self.apiManager = apiManager
     }
-    
-    
+        
     func  fetchUserData(){
-          isLoading = true
-          DatabaseManager.shared.fetchUserDataFromDatabase{[weak self] result in
-            switch result{
-            case .success(let users):
-                self?.users = users
-                self?.isLoading = false
-                if users.isEmpty{
-                    self?.fetchUserFromApi()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-                self?.alertDescription = AlertDescription(message: error.localizedDescription)
-                self?.fetchUserFromApi()
-            }
+        if NetworkMonitor.shared.isReachable{
+            fetchUserFromApi()
+        }else{
+            fetchUserFromLocalDatabase()
         }
+    }
+    
+    
+    private func fetchUserFromLocalDatabase(){
+        print("From local database")
+        isLoading = true
+        DatabaseManager.shared.fetchUserDataFromDatabase{[weak self] result in
+          switch result{
+          case .success(let users):
+              self?.users = users
+              self?.isLoading = false
+          case .failure(let error):
+              print(error.localizedDescription)
+              self?.alertDescription = AlertDescription(message: error.localizedDescription)
+          }
+      }
     }
     
     
@@ -58,25 +63,17 @@ class UserViewModel : ObservableObject {
                         DatabaseManager.shared.saveUserToDatabase(user: user)
                     }
                 }
-            } catch {
+            } catch let error as ApiError{
                 print("Error: \(error)")
                 DispatchQueue.main.async { [weak self] in
                     self?.isLoading = false
-                    self?.alertDescription = AlertDescription(message: error.localizedDescription)
+                    self?.alertDescription = AlertDescription(message: error.errorDescription ?? "Unknown Error" )
                 }
             }
         }
     }
     
     func handleUserAction(userStatus: UserStatus,  user : User){
-        for u in users{
-            print(u.email)
-            
-            print("matches", user.email == u.email)
-            if  user.email == u.email{
-                break
-            }
-        }
         if let index = users.firstIndex(where: { $0.email == user.email }) {
             var modifiedUser = user
             modifiedUser.userStatus = userStatus

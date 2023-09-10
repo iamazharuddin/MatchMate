@@ -16,7 +16,6 @@ class DatabaseManager {
     private init() {} 
     
     // MARK: - Save User to Database
-    
     func saveUserToDatabase(user: User) {
         let userEntity = UserEntity(context: managedObjectContext)
         userEntity.uuid = user.uuid
@@ -43,7 +42,6 @@ class DatabaseManager {
     func updateUserInDatabase(user: User) {
         let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "email == %@", user.email)
-        
         do {
             let fetchedUsers = try managedObjectContext.fetch(fetchRequest)
             if let userEntityToUpdate = fetchedUsers.first {
@@ -64,7 +62,6 @@ class DatabaseManager {
             
             do {
                 let userEntities = try backgroundContext.fetch(fetchRequest)
-                // Convert fetched UserEntity objects to User models
                 let users = userEntities.map { userEntity in
                     let name = Name(first: userEntity.first ?? "", last: userEntity.last ?? "")
                     let location = Location(street: Street(number: Int(userEntity.streetNumber), name: userEntity.streetName),
@@ -98,7 +95,6 @@ class DatabaseManager {
 
     
     // MARK: - Delete All Users from Database
-    
     func deleteAllUsersFromDatabase() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = UserEntity.fetchRequest()
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)

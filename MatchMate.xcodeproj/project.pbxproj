@@ -22,13 +22,15 @@
 		1BA48E192AAB5E0E00D5AEFD /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E182AAB5E0E00D5AEFD /* UserListViewModel.swift */; };
 		1BA48E1B2AAB5FC300D5AEFD /* UserCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E1A2AAB5FC300D5AEFD /* UserCardView.swift */; };
 		1BA48E1D2AAB689C00D5AEFD /* UserCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E1C2AAB689C00D5AEFD /* UserCardViewModel.swift */; };
-		1BA48E1F2AAB92EE00D5AEFD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E1E2AAB92EE00D5AEFD /* Constants.swift */; };
 		1BA48E252AAB937200D5AEFD /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E242AAB937200D5AEFD /* Color.swift */; };
 		1BA48E2C2AAC27FF00D5AEFD /* CachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E2B2AAC27FF00D5AEFD /* CachedImage.swift */; };
 		1BA48E2F2AAC473E00D5AEFD /* DatabaseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E2E2AAC473E00D5AEFD /* DatabaseManger.swift */; };
 		1BA48E312AAC4D4800D5AEFD /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E302AAC4D4800D5AEFD /* NetworkMonitor.swift */; };
 		1BA48E332AAC505100D5AEFD /* AlertDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E322AAC505100D5AEFD /* AlertDescription.swift */; };
 		1BA48E352AAC516500D5AEFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E342AAC516500D5AEFD /* AppDelegate.swift */; };
+		1BA48E3A2AAD8CC700D5AEFD /* AppUrlConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E392AAD8CC700D5AEFD /* AppUrlConstant.swift */; };
+		1BA48E3C2AAD8CE100D5AEFD /* AppColorConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E3B2AAD8CE100D5AEFD /* AppColorConstant.swift */; };
+		1BA48E3F2AAD8D0D00D5AEFD /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48E3E2AAD8D0D00D5AEFD /* ApiError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,13 +69,15 @@
 		1BA48E182AAB5E0E00D5AEFD /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 		1BA48E1A2AAB5FC300D5AEFD /* UserCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCardView.swift; sourceTree = "<group>"; };
 		1BA48E1C2AAB689C00D5AEFD /* UserCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCardViewModel.swift; sourceTree = "<group>"; };
-		1BA48E1E2AAB92EE00D5AEFD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1BA48E242AAB937200D5AEFD /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		1BA48E2B2AAC27FF00D5AEFD /* CachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImage.swift; sourceTree = "<group>"; };
 		1BA48E2E2AAC473E00D5AEFD /* DatabaseManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManger.swift; sourceTree = "<group>"; };
 		1BA48E302AAC4D4800D5AEFD /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		1BA48E322AAC505100D5AEFD /* AlertDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDescription.swift; sourceTree = "<group>"; };
 		1BA48E342AAC516500D5AEFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1BA48E392AAD8CC700D5AEFD /* AppUrlConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUrlConstant.swift; sourceTree = "<group>"; };
+		1BA48E3B2AAD8CE100D5AEFD /* AppColorConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColorConstant.swift; sourceTree = "<group>"; };
+		1BA48E3E2AAD8D0D00D5AEFD /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +128,8 @@
 		1BA48DDE2AAB5B7900D5AEFD /* MatchMate */ = {
 			isa = PBXGroup;
 			children = (
+				1BA48E3D2AAD8D0300D5AEFD /* Enum */,
+				1BA48E382AAD8CB600D5AEFD /* Constant */,
 				1BA48E2D2AAC472100D5AEFD /* Manager */,
 				1BA48E2A2AAC27ED00D5AEFD /* Utiltiy */,
 				1BA48E232AAB935D00D5AEFD /* Extension */,
@@ -136,7 +142,6 @@
 				1BA48DE82AAB5B7A00D5AEFD /* Persistence.swift */,
 				1BA48DEA2AAB5B7A00D5AEFD /* MatchMate.xcdatamodeld */,
 				1BA48DE52AAB5B7A00D5AEFD /* Preview Content */,
-				1BA48E1E2AAB92EE00D5AEFD /* Constants.swift */,
 				1BA48E342AAC516500D5AEFD /* AppDelegate.swift */,
 			);
 			path = MatchMate;
@@ -218,6 +223,23 @@
 				1BA48E302AAC4D4800D5AEFD /* NetworkMonitor.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		1BA48E382AAD8CB600D5AEFD /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				1BA48E392AAD8CC700D5AEFD /* AppUrlConstant.swift */,
+				1BA48E3B2AAD8CE100D5AEFD /* AppColorConstant.swift */,
+			);
+			path = Constant;
+			sourceTree = "<group>";
+		};
+		1BA48E3D2AAD8D0300D5AEFD /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				1BA48E3E2AAD8D0D00D5AEFD /* ApiError.swift */,
+			);
+			path = Enum;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -351,16 +373,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BA48DE92AAB5B7A00D5AEFD /* Persistence.swift in Sources */,
-				1BA48E1F2AAB92EE00D5AEFD /* Constants.swift in Sources */,
 				1BA48E192AAB5E0E00D5AEFD /* UserListViewModel.swift in Sources */,
 				1BA48E122AAB5BE800D5AEFD /* UserListView.swift in Sources */,
 				1BA48E1B2AAB5FC300D5AEFD /* UserCardView.swift in Sources */,
 				1BA48E252AAB937200D5AEFD /* Color.swift in Sources */,
 				1BA48E1D2AAB689C00D5AEFD /* UserCardViewModel.swift in Sources */,
+				1BA48E3A2AAD8CC700D5AEFD /* AppUrlConstant.swift in Sources */,
 				1BA48DE22AAB5B7900D5AEFD /* ContentView.swift in Sources */,
 				1BA48DEC2AAB5B7A00D5AEFD /* MatchMate.xcdatamodeld in Sources */,
 				1BA48E312AAC4D4800D5AEFD /* NetworkMonitor.swift in Sources */,
+				1BA48E3C2AAD8CE100D5AEFD /* AppColorConstant.swift in Sources */,
 				1BA48E152AAB5D1100D5AEFD /* ApiManager.swift in Sources */,
+				1BA48E3F2AAD8D0D00D5AEFD /* ApiError.swift in Sources */,
 				1BA48DE02AAB5B7900D5AEFD /* MatchMateApp.swift in Sources */,
 				1BA48E172AAB5DD900D5AEFD /* UserResponseModel.swift in Sources */,
 				1BA48E332AAC505100D5AEFD /* AlertDescription.swift in Sources */,

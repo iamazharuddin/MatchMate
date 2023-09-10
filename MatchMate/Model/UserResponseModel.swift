@@ -7,14 +7,14 @@
 
 import Foundation
 struct UserResponse : Decodable {
-    let results : [User]?
+    let results : [User]
 }
 
 struct User : Decodable {
     var uuid = UUID().uuidString
     let name : Name
     let email : String
-    let gender : String?
+    let gender : String
     let picture : Picture
     let location : Location
     var userStatus : UserStatus = .none

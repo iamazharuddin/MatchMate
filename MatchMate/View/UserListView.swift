@@ -12,9 +12,8 @@ struct UserListView: View {
     var body: some View {
         NavigationView {
             ZStack{
-                Color(hex: colorScheme == .dark ? "#ADB0BC" :   "#F5F5F5")
+               (colorScheme == .dark ?  AppColorConstant.bgColorDarkMode :  AppColorConstant.bgColorLightMode)
                     .edgesIgnoringSafeArea(.all)
-                
                 ScrollView{
                     LazyVStack{
                         ForEach(viewModel.users, id:\.uuid) { user in
@@ -24,17 +23,11 @@ struct UserListView: View {
                             UserCardView(cardViewModel: cardViewModel)
                         }
                     }
-
                 }
-                
                 if  viewModel.isLoading {
-                    ProgressView {
-                        Text("Loading")
-                    }
-                    .foregroundColor(AppColor.themeColor)
+                    ProgressView()
                 }
             }
-            .listStyle(PlainListStyle())
             .onAppear(){
                 viewModel.fetchUserData()
             }

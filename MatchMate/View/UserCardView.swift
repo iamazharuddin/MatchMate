@@ -17,11 +17,11 @@ struct UserCardView: View {
             
             Text(cardViewModel.fullName)
                 .font(.system(size: 20, weight: .bold))
-                .foregroundColor(AppColor.themeColor)
+                .foregroundColor(AppColorConstant.themeColor)
                 .padding(.top, 10)
             
             Text(cardViewModel.completeAddress)
-                .foregroundColor(AppColor.textColor)
+                .foregroundColor(AppColorConstant.textColor)
                 .font(.system(size: 16, weight: .medium))
                 .padding(.top, 5)
                 .multilineTextAlignment(.center)
@@ -34,14 +34,14 @@ struct UserCardView: View {
                     .foregroundColor(.white)
                     .font(.body)
                     .frame(maxWidth: .infinity, minHeight: 48)
-                    .background(AppColor.themeColor)
+                    .background(AppColorConstant.themeColor)
                     .cornerRadius(6)
             case .rejected:
                 Text("Declined")
                     .foregroundColor(.white)
                     .font(.body)
                     .frame(maxWidth: .infinity, minHeight: 48)
-                    .background(AppColor.themeColor)
+                    .background(AppColorConstant.themeColor)
                     .cornerRadius(6)
             case .none:
                 HStack {
@@ -51,7 +51,7 @@ struct UserCardView: View {
                         Image(systemName: "checkmark")
                             .font(.title)
                             .padding(10)
-                            .background(Circle().stroke(AppColor.themeColor, lineWidth: 4))
+                            .background(Circle().stroke(AppColorConstant.themeColor, lineWidth: 4))
                             .clipShape(Circle())
                         
                     }.buttonStyle(PlainButtonStyle())
@@ -64,12 +64,12 @@ struct UserCardView: View {
                         Image(systemName: "xmark")
                             .font(.title)
                             .padding(10)
-                            .background(Circle().stroke(AppColor.themeColor, lineWidth: 4))
+                            .background(Circle().stroke(AppColorConstant.themeColor, lineWidth: 4))
                             .clipShape(Circle())
                         
                     }.buttonStyle(PlainButtonStyle())
                 }
-                .foregroundColor(AppColor.textColor)
+                .foregroundColor(AppColorConstant.textColor)
                 .padding(.top, 20)
             }
         }

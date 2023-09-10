@@ -6,17 +6,6 @@
 //
 
 import Foundation
-
-struct AppURLConstant{
-    static let baseURL = "https://randomuser.me/api/"
-}
-
-enum ApiError : LocalizedError {
-     case networkError(String)
-     case noData(String)
-     case inValidData
-}
-
 protocol ApiManagerDelegate {
     func fetchUserData() async throws -> [User]
 }
@@ -24,22 +13,18 @@ protocol ApiManagerDelegate {
 class ApiManager : ApiManagerDelegate {
     static let shared = ApiManager()
     func fetchUserData() async throws -> [User] {
-        guard let url = URL(string: AppURLConstant.baseURL + "?results=10") else {
-            throw URLError(.badURL)
-        }
-        let urlRequest = URLRequest(url: url)
         do {
-            let (data, _) =  try await URLSession.shared.data(for: urlRequest)
-            do {
-                let usersResponse = try  JSONDecoder().decode(UserResponse.self, from: data)
-                return usersResponse.results!
-            } catch let error {
-                print(error.localizedDescription)
-                throw ApiError.inValidData
+            let urlString =  AppURLConstant.baseURL + "?results=10"
+            guard let url = URL(string:urlString) else {
+                throw ApiError.invalidURL
             }
-        } catch let error {
-            print(error.localizedDescription)
-            throw ApiError.noData(error.localizedDescription)
+            let urlRequest = URLRequest(url: url)
+            let (data, response) =  try await URLSession.shared.data(for: urlRequest)
+            guard  (response as? HTTPURLResponse)?.statusCode == 200 else { throw ApiError.serverError }
+            guard let usersResponse = try?  JSONDecoder().decode(UserResponse.self, from: data) else {  throw ApiError.inValidData }
+            return usersResponse.results
+        } catch {
+            throw ApiError.unkown(error)
         }
     }
 }
