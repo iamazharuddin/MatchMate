@@ -17,7 +17,9 @@ struct UserCardViewModel {
     }
     
     var fullName : String  {
-        return user.name.first  + " " + (user.name.last ?? "")
+        let nameComponents: [String?] = [user.name.title, user.name.first, user.name.last]
+        let fullName = nameComponents.compactMap { $0 }.joined(separator: " ")
+        return fullName
     }
     
     var completeAddress: String {

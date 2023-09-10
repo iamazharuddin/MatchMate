@@ -24,6 +24,7 @@ struct User : Decodable, Identifiable {
 }
 
 struct Name : Decodable {
+    let title : String?
     let first:String
     let last:String?
 }

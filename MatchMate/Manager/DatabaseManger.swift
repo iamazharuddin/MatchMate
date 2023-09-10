@@ -19,6 +19,7 @@ class DatabaseManager {
     func saveUserToDatabase(user: User) {
         let userEntity = UserEntity(context: managedObjectContext)
         userEntity.email = user.email
+        userEntity.title = user.name.title
         userEntity.first = user.name.first
         userEntity.last = user.name.last
         userEntity.gender = user.gender
@@ -62,7 +63,7 @@ class DatabaseManager {
             do {
                 let userEntities = try backgroundContext.fetch(fetchRequest)
                 let users = userEntities.map { userEntity in
-                    let name = Name(first: userEntity.first ?? "", last: userEntity.last ?? "")
+                    let name = Name(title: userEntity.title,  first: userEntity.first ?? "", last: userEntity.last ?? "")
                     let location = Location(street: Street(number: Int(userEntity.streetNumber), name: userEntity.streetName),
                                             city: userEntity.city ?? "",
                                             state: "",
