@@ -16,7 +16,7 @@ struct UserListView: View {
                     .edgesIgnoringSafeArea(.all)
                 ScrollView{
                     LazyVStack{
-                        ForEach(viewModel.users, id:\.uuid) { user in
+                        ForEach(viewModel.users) { user in
                             let cardViewModel = UserCardViewModel(user: user) { action in
                                 viewModel.handleUserAction(userStatus: action, user: user)
                             }

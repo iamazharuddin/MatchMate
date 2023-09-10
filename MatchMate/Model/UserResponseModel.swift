@@ -10,8 +10,8 @@ struct UserResponse : Decodable {
     let results : [User]
 }
 
-struct User : Decodable {
-    var uuid = UUID().uuidString
+struct User : Decodable, Identifiable {
+    var id : String { return email }
     let name : Name
     let email : String
     let gender : String

@@ -18,7 +18,6 @@ class DatabaseManager {
     // MARK: - Save User to Database
     func saveUserToDatabase(user: User) {
         let userEntity = UserEntity(context: managedObjectContext)
-        userEntity.uuid = user.uuid
         userEntity.email = user.email
         userEntity.first = user.name.first
         userEntity.last = user.name.last
