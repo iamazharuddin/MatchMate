@@ -8,7 +8,7 @@
 import SwiftUI
 struct UserListView: View {
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var viewModel = UserViewModel()
+    @StateObject var viewModel = UserListViewModel()
     var body: some View {
         NavigationView {
             ZStack{

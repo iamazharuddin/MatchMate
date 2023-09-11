@@ -8,11 +8,11 @@
 import XCTest
 @testable import MatchMate
 class UserListViewModelTests: XCTestCase {
-    var viewModel: UserViewModel!
+    var viewModel: UserListViewModel!
 
     override func setUp() {
         super.setUp()
-        viewModel = UserViewModel(apiManager : MockApiManager())
+        viewModel = UserListViewModel(apiManager : MockApiManager())
     }
 
     override func tearDown() {

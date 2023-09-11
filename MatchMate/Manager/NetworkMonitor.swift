@@ -20,9 +20,7 @@ class NetworkMonitor {
             self?.status = path.status
             self?.isReachableOnCellular = path.isExpensive
             if path.status == .satisfied {
-                print("We're connected!")
                 // post connected notification
-                
                 DatabaseManager.shared.syncDataToServer { result in
                     switch result {
                     case .success:
@@ -33,7 +31,6 @@ class NetworkMonitor {
                 }
             } else {
                 print("No connection.")
-                // post disconnected notification
             }
         }
 

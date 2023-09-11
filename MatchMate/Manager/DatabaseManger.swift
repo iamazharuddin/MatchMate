@@ -7,59 +7,17 @@
 
 import Foundation
 import CoreData
-
 class DatabaseManager {
     static let shared = DatabaseManager()
     
     private let managedObjectContext = PersistenceController.shared.container.viewContext
     
-    private init() {} 
-    
-    // MARK: - Save User to Database
-    func saveUserToDatabase(user: User) {
-        let userEntity = UserEntity(context: managedObjectContext)
-        userEntity.email = user.email
-        userEntity.title = user.name.title
-        userEntity.first = user.name.first
-        userEntity.last = user.name.last
-        userEntity.gender = user.gender
-        userEntity.userStatus = user.userStatus.rawValue
-        userEntity.streetName  = user.location.street?.name ?? ""
-        userEntity.streetNumber = Int32(user.location.street?.number ?? 0)
-        userEntity.city = user.location.city ?? ""
-        userEntity.country = user.location.country ?? ""
-        userEntity.profileImageUrl = user.picture.large  ?? user.picture.medium ?? ""
-        
-        do {
-            try managedObjectContext.save()
-        } catch {
-            print("Error saving user data: \(error)")
-        }
-    }
-    
-    // MARK: - Update User in Database
-    
-    func updateUserInDatabase(user: User) {
-        let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "email == %@", user.email)
-        do {
-            let fetchedUsers = try managedObjectContext.fetch(fetchRequest)
-            if let userEntityToUpdate = fetchedUsers.first {
-                userEntityToUpdate.userStatus = user.userStatus.rawValue
-            }
-            try managedObjectContext.save()
-        } catch  {
-            print("Error updating user data in Core Data: \(error)")
-        }
-    }
+    private init() {}
     
     // MARK: - Fetch User Data from Database
     func fetchUserDataFromDatabase(completion: @escaping (Result<[User], Error>) -> Void ) {
-        let backgroundContext = PersistenceController.shared.container.newBackgroundContext()
-        
-        backgroundContext.perform {
+        PersistenceController.shared.container.performBackgroundTask { backgroundContext in
             let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
-            
             do {
                 let userEntities = try backgroundContext.fetch(fetchRequest)
                 let users = userEntities.map { userEntity in
@@ -85,24 +43,67 @@ class DatabaseManager {
                     completion(.success(users))
                 }
             } catch {
-                print("Error fetching user data from Core Data: \(error)")
                 DispatchQueue.main.async {
                     completion(.failure(error))
                 }
             }
         }
     }
-
+    
+    
+    // MARK: - Save User to Database
+    func saveUsersToDatabase(users: [User], completion: @escaping (Result<Void,Error>) -> Void ){
+         PersistenceController.shared.container.performBackgroundTask { privateManagedContext in
+            users.forEach { user in
+                let userEntity = UserEntity(context: privateManagedContext)
+                userEntity.email = user.email
+                userEntity.title = user.name.title
+                userEntity.first = user.name.first
+                userEntity.last = user.name.last
+                userEntity.gender = user.gender
+                userEntity.userStatus = user.userStatus.rawValue
+                userEntity.streetName  = user.location.street?.name ?? ""
+                userEntity.streetNumber = Int32(user.location.street?.number ?? 0)
+                userEntity.city = user.location.city ?? ""
+                userEntity.country = user.location.country ?? ""
+                userEntity.profileImageUrl = user.picture.large  ?? user.picture.medium ?? ""
+            }
+            
+            do {
+                try privateManagedContext.save()
+                completion(.success(Void()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    
+    // MARK: - Update User in Database
+    func updateUserInDatabase(user: User) throws {
+        let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email == %@", user.email)
+        do {
+            let fetchedUsers = try managedObjectContext.fetch(fetchRequest)
+            if let userEntityToUpdate = fetchedUsers.first {
+                userEntityToUpdate.userStatus = user.userStatus.rawValue
+            }
+            try managedObjectContext.save()
+        } catch  {
+            throw error
+        }
+    }
+    
     
     // MARK: - Delete All Users from Database
-    func deleteAllUsersFromDatabase() {
+    func deleteAllUsersFromDatabase() throws  {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = UserEntity.fetchRequest()
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         
         do {
             try managedObjectContext.execute(batchDeleteRequest)
         } catch {
-            print("Error deleting all users from Core Data: \(error)")
+            throw error
         }
     }
     

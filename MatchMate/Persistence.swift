@@ -33,4 +33,8 @@ struct PersistenceController {
             }
         }
     }
+    
+    func printDocumentDirecrotyPath(){
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0])
+    }
 }
