@@ -15,7 +15,7 @@ class DatabaseManager {
     private init() {}
     
     // MARK: - Fetch User Data from Database
-    func fetchUserDataFromDatabase(completion: @escaping (Result<[User], Error>) -> Void ) {
+    func fetchUserDataFromDatabase(completion: @escaping (Result<[User], Error>) -> Void) {
         PersistenceController.shared.container.performBackgroundTask { backgroundContext in
             let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
             do {
@@ -54,11 +54,12 @@ class DatabaseManager {
     // MARK: - Save User to Database
     func saveUsersToDatabase(users: [User], completion: @escaping (Result<Void, Error>) -> Void) {
         let dispatchGroup = DispatchGroup()
-        
+        var saveError: Error?
+
         PersistenceController.shared.container.performBackgroundTask { privateManagedContext in
             for user in users {
                 dispatchGroup.enter() // Enter the dispatch group for each user
-                
+
                 let userEntity = UserEntity(context: privateManagedContext)
                 userEntity.email = user.email
                 userEntity.title = user.name.title
@@ -71,26 +72,27 @@ class DatabaseManager {
                 userEntity.city = user.location.city ?? ""
                 userEntity.country = user.location.country ?? ""
                 userEntity.profileImageUrl = user.picture.large ?? user.picture.medium ?? ""
-                
+
                 do {
                     try privateManagedContext.save()
                 } catch {
-                    completion(.failure(error))
-                    return
+                    saveError = error
                 }
-                
+
                 dispatchGroup.leave() // Leave the dispatch group when each user is saved
             }
-            
-            // Notify completion handler when all users are saved
+
             dispatchGroup.notify(queue: .main) {
-                completion(.success(Void()))
+                if let error = saveError {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(Void()))
+                }
             }
         }
     }
 
-    
-    
+
     // MARK: - Update User in Database
     func updateUserInDatabase(user: User) throws {
         let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()

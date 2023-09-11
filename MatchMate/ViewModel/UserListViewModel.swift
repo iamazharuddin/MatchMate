@@ -92,8 +92,6 @@ extension UserListViewModel{
     }
     
     
-
-    
     private func fetchUserFromLocalDatabase(){
         print("From local database")
         isLoading = true

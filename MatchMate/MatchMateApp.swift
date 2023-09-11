@@ -18,14 +18,17 @@ struct MatchMateApp: App {
         }.onChange(of: scenePhase) { newScenePhase in
             switch newScenePhase{
             case .active:
-                NetworkMonitor.shared.startMonitoring()
+                if  NetworkMonitor.shared.isReachable == false{
+                    NetworkMonitor.shared.startMonitoring()
+                }
             case .inactive:
                 print(scenePhase)
             case .background:
-                NetworkMonitor.shared.stopMonitoring()
+                if   NetworkMonitor.shared.isReachable == true{
+                    NetworkMonitor.shared.stopMonitoring()
+                }
             @unknown default:
                 print(newScenePhase)
-                NetworkMonitor.shared.stopMonitoring()
             }
         }
     }

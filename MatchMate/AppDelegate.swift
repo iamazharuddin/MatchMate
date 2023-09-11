@@ -11,4 +11,5 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         NetworkMonitor.shared.startMonitoring()
         return true
     }
+    
 }
