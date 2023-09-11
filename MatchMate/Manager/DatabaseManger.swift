@@ -52,9 +52,13 @@ class DatabaseManager {
     
     
     // MARK: - Save User to Database
-    func saveUsersToDatabase(users: [User], completion: @escaping (Result<Void,Error>) -> Void ){
-         PersistenceController.shared.container.performBackgroundTask { privateManagedContext in
-            users.forEach { user in
+    func saveUsersToDatabase(users: [User], completion: @escaping (Result<Void, Error>) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        
+        PersistenceController.shared.container.performBackgroundTask { privateManagedContext in
+            for user in users {
+                dispatchGroup.enter() // Enter the dispatch group for each user
+                
                 let userEntity = UserEntity(context: privateManagedContext)
                 userEntity.email = user.email
                 userEntity.title = user.name.title
@@ -62,21 +66,29 @@ class DatabaseManager {
                 userEntity.last = user.name.last
                 userEntity.gender = user.gender
                 userEntity.userStatus = user.userStatus.rawValue
-                userEntity.streetName  = user.location.street?.name ?? ""
+                userEntity.streetName = user.location.street?.name ?? ""
                 userEntity.streetNumber = Int32(user.location.street?.number ?? 0)
                 userEntity.city = user.location.city ?? ""
                 userEntity.country = user.location.country ?? ""
-                userEntity.profileImageUrl = user.picture.large  ?? user.picture.medium ?? ""
+                userEntity.profileImageUrl = user.picture.large ?? user.picture.medium ?? ""
+                
+                do {
+                    try privateManagedContext.save()
+                } catch {
+                    completion(.failure(error))
+                    return
+                }
+                
+                dispatchGroup.leave() // Leave the dispatch group when each user is saved
             }
             
-            do {
-                try privateManagedContext.save()
+            // Notify completion handler when all users are saved
+            dispatchGroup.notify(queue: .main) {
                 completion(.success(Void()))
-            } catch {
-                completion(.failure(error))
             }
         }
     }
+
     
     
     // MARK: - Update User in Database

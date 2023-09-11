@@ -77,7 +77,7 @@ extension UserListViewModel{
             DatabaseManager.shared.saveUsersToDatabase(users: users){  result in
                 switch result{
                 case .success:
-                     print("Saved to core data succesfully.")
+                     print("Saved to local databse succesfully.")
                 case .failure(let error):
                      DispatchQueue.main.async {
                          self.alertDescription = AlertDescription(message: error.localizedDescription)
